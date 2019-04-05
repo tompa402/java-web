@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+
+<head th:replace="fragments/header :: header(~{::title},~{})">
+    <title>Awesome - Main</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h1>Static content for prototyping purposes only2</h1>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Praesent scelerisque neque neque, ac elementum quam dignissim interdum.
+        Phasellus et placerat elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Praesent scelerisque neque neque, ac elementum quam dignissim interdum.
+        Phasellus et placerat elit.
+    </p>
+    <button class="btn btn-success">Testis</button>
+</div>
+</body>
+</html>
