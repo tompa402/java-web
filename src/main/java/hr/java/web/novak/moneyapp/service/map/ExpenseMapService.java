@@ -2,9 +2,11 @@ package hr.java.web.novak.moneyapp.service.map;
 
 import hr.java.web.novak.moneyapp.model.Expense;
 import hr.java.web.novak.moneyapp.service.ExpenseService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class ExpenseMapService extends AbstractMapService<Expense, Long> implements ExpenseService {
 
     @Override

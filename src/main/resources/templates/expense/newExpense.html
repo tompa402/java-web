@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+
+<head th:replace="fragments/header :: header(~{::title},~{},~{})">
+    <title>MA - New Expense</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="container py-3">
+        <div class="row">
+            <div class="mx-auto col-sm-6">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">New expense</h6>
+                    </div>
+                    <div class="card-body">
+                        <form class="form" role="form" autocomplete="off" method="post" th:object="${expense}">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label" for="name">Name</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" id="name" th:field="*{name}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label" for="amount">Amount</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" id="amount" th:field="*{amount}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label" for="desc">Description</label>
+                                <div class="col-lg-9">
+                                    <textarea class="form-control" rows="3" id="desc" th:field="*{description}"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Type</label>
+                                <div class="col-lg-9">
+                                    <select id="user_time_zone" class="form-control" size="0" th:field="*{expenseType}">
+                                        <option th:each="type : ${expenseTypes}"
+                                                th:value="${type}"
+                                                th:text="${type}">Type
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label"></label>
+                                <div class="col-lg-9">
+                                    <input type="reset" class="btn btn-secondary" value="Cancel">
+                                    <input type="submit" class="btn btn-primary" value="Save Changes">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>

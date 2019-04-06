@@ -9,5 +9,6 @@ public class Expense extends BaseEntity {
 
     private String name;
     private BigDecimal amount;
+    private String description;
     private ExpenseType expenseType;
 }

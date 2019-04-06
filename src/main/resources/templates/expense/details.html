@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+
+<head th:replace="fragments/header :: header(~{::title},~{}, ~{})">
+    <title>MA - Expenses</title>
+
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container py-3">
+        <div class="row">
+            <div class="mx-auto col-sm-6">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Expense details</h6>
+                    </div>
+                    <div class="card-body">
+                        <dl class="row" th:object="${expense}">
+                            <dt class="col-sm-3">Name</dt>
+                            <dd class="col-sm-9" th:text="*{name}">name</dd>
+
+                            <dt class="col-sm-3">Amount</dt>
+                            <dd class="col-sm-9" th:text="${expense.amount} + ' HRK'">123 HRK</dd>
+
+                            <dt class="col-sm-3">Description</dt>
+                            <dd class="col-sm-9" th:text="*{description}">Longer description</dd>
+
+                            <dt class="col-sm-3">Expense Type</dt>
+                            <dd class="col-sm-9" th:text="*{expenseType}">type</dd>
+                        </dl>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-9">
+                                <a th:href="@{/expense/new}" class="btn btn-primary">New Expense</a>
+                                <a th:href="@{/expense}" class="btn btn-success">Expense list</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
