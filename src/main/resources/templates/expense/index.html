@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{fragments/layout}">
 
 <head th:replace="fragments/header :: header(~{::title},~{::link}, ~{::script})">
@@ -25,14 +26,18 @@
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Expenses List</h6>
             <div class="dropdown no-arrow">
-                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                     aria-labelledby="dropdownMenuLink">
                     <div class="dropdown-header">Action:</div>
                     <a class="dropdown-item" href="#" th:href="@{/expense/new}">New expense</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" th:href="@{/expense/resetWallet}">Reset wallet</a>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="dropdown-item" href="#" th:href="@{/expense/resetWallet}">Reset wallet</a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{fragments/layout}">
 
 <head th:replace="fragments/header :: header(~{::title},~{::link},~{})">
@@ -20,7 +21,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">New expense</h6>
                     </div>
                     <div class="card-body">
-                        <form class="form" role="form" autocomplete="off" method="post" th:object="${expense}">
+                        <form class="form" role="form" autocomplete="off" th:action="@{/expense/new}"  method="post" th:object="${expense}">
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label" for="name">Name</label>
                                 <div class="col-lg-9">

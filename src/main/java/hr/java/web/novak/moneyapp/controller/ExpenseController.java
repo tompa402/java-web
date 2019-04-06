@@ -7,6 +7,7 @@ import hr.java.web.novak.moneyapp.model.WalletType;
 import hr.java.web.novak.moneyapp.service.ExpenseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -57,12 +58,14 @@ public class ExpenseController {
     }
 
     @GetMapping("/new")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public String newExpense(Model model) {
         model.addAttribute("expense", new Expense());
         model.addAttribute("expenseTypes", ExpenseType.values());
         return "expense/newExpense";
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/new")
     public ModelAndView processExpense(@Validated Expense expense,
                                        Errors errors,
@@ -90,7 +93,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/resetWallet")
-    public String resetWallet(SessionStatus status){
+    public String resetWallet(SessionStatus status) {
         status.setComplete();
         return "redirect:/expense/new";
     }

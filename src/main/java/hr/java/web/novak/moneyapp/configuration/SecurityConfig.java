@@ -15,22 +15,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder().encode("adminpass")).roles("ADMIN", "USER")
+        auth
+                .inMemoryAuthentication()
+                .withUser("admin")
+                .password(passwordEncoder().encode("adminpass"))
+                .roles("ADMIN", "USER")
                 .and()
-                .withUser("student").password(passwordEncoder().encode("studentpass")).roles("USER");
+                .withUser("student")
+                .password(passwordEncoder().encode("studentpass"))
+                .roles("USER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/expense/*").hasRole("USER")
-                .antMatchers("/expense*").hasRole("USER")
-                .antMatchers("/login*").permitAll()
+                .antMatchers("/expense/**")
+                .hasRole("USER")
+                .antMatchers("/**")
+                .hasRole("ADMIN")
+                .antMatchers("/**")
+                .permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/expense", true)
+                .defaultSuccessUrl("/expense/new", true)
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login");
