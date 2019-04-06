@@ -92,6 +92,7 @@ public class ExpenseController {
         return "details";
     }
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/resetWallet")
     public String resetWallet(SessionStatus status) {
         status.setComplete();
