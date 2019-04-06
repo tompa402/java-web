@@ -32,6 +32,7 @@
                     <div class="dropdown-header">Action:</div>
                     <a class="dropdown-item" href="#" th:href="@{/expense/new}">New expense</a>
                     <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" th:href="@{/expense/resetWallet}">Reset wallet</a>
                 </div>
             </div>
         </div>
@@ -48,10 +49,8 @@
                     </thead>
                     <tfoot>
                     <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Type</th>
-                        <th>Amount</th>
+                        <th colspan="3">TOTAL</th>
+                        <th th:text="${total}">Amount</th>
                     </tr>
                     </tfoot>
                     <tbody>
