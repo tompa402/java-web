@@ -1,14 +1,17 @@
 package hr.java.web.novak.moneyapp.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
+@EqualsAndHashCode(callSuper=true)
 public class Expense extends BaseEntity {
 
     @NotEmpty(message = "Niste unjeli naziv troška")
@@ -23,4 +26,6 @@ public class Expense extends BaseEntity {
 
     @NotNull(message = "Niste odabrali vrstu toška")
     private ExpenseType expenseType;
+
+    private LocalDateTime created;
 }
