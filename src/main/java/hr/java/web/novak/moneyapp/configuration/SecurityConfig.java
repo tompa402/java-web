@@ -49,6 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessUrl("/login");
 
+        http.authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/h2/**").permitAll();
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
     }
 
     public PasswordEncoder passwordEncoder(int strength) {
