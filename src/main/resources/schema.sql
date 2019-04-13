@@ -24,21 +24,19 @@ create table if not exists expense_type(
 create table if not exists wallet(
   id identity,
   user_id int,
-  wallet_type_id int,
+  wallet_type varchar(16),
   name varchar(32) not null,
   created timestamp as CURRENT_TIMESTAMP,
-  foreign key (wallet_type_id) references wallet_type(id),
   foreign key (user_id) references users(id)
 );
 
 create table if not exists expense(
   id identity,
   wallet_id int,
-  expense_type_id int,
+  expense_type varchar (16),
   name varchar(32) not null,
   amount NUMERIC(8,2) not null,
   description varchar (128),
   created timestamp as CURRENT_TIMESTAMP,
-  foreign key (expense_type_id) references expense_type(id),
   foreign key (wallet_id) references wallet(id),
 );

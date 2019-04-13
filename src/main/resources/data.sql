@@ -14,15 +14,15 @@ insert into expense_type (name) values ('DRINK');
 insert into expense_type (name) values ('BILL');
 insert into expense_type (name) values ('OTHER');
 
-insert into wallet (user_id, wallet_type_id, name) values (1, 1, 'Admin Novcarka');
-insert into wallet (user_id, wallet_type_id, name) values (2, 1, 'User Novcarka');
+insert into wallet (user_id, wallet_type, name) values (1, 'CASH', 'Admin Novcarka');
+insert into wallet (user_id, wallet_type, name) values (2, 'CASH', 'User Novcarka');
 
-insert into expense (wallet_id, expense_type_id, name, amount, description)
-values (1, 1, 'Pizza', 35.00, 'Bila je fina');
-insert into expense (wallet_id, expense_type_id, name, amount, description)
-values (1, 2, 'Pivo', 20.00, 'Dobro al skupo');
+insert into expense (wallet_id, expense_type, name, amount, description)
+values (1, 'FOOD', 'Pizza', 35.00, 'Bila je fina');
+insert into expense (wallet_id, expense_type, name, amount, description)
+values (1, 'DRINK', 'Pivo', 20.00, 'Dobro al skupo');
 
-insert into expense (wallet_id, expense_type_id, name, amount, description)
-values (2, 1, 'Burek', 12.00, 'Od mesa, zna se');
-insert into expense (wallet_id, expense_type_id, name, amount, description)
-values (2, 2, 'Pelin', 11.00, 'U malim bocicama se otrov drzi');
+insert into expense (wallet_id, expense_type, name, amount, description)
+values (2, 'FOOD', 'Burek', 12.00, 'Od mesa, zna se');
+insert into expense (wallet_id, expense_type, name, amount, description)
+values (2, 'DRINK', 'Pelin', 11.00, 'U malim bocicama se otrov drzi');

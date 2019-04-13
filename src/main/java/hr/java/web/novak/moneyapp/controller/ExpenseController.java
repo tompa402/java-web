@@ -3,12 +3,14 @@ package hr.java.web.novak.moneyapp.controller;
 import hr.java.web.novak.moneyapp.model.Expense;
 import hr.java.web.novak.moneyapp.model.ExpenseType;
 import hr.java.web.novak.moneyapp.model.Wallet;
-import hr.java.web.novak.moneyapp.model.WalletType;
+import hr.java.web.novak.moneyapp.repository.ExpenseRepository;
+import hr.java.web.novak.moneyapp.repository.WalletRepository;
 import hr.java.web.novak.moneyapp.service.ExpenseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -26,10 +28,14 @@ import java.math.BigDecimal;
 public class ExpenseController {
 
     private final ExpenseService expenseService;
+    private final WalletRepository walletRepository;
+    private final ExpenseRepository expenseRepository;
 
     @Autowired
-    public ExpenseController(ExpenseService expenseService) {
+    public ExpenseController(ExpenseService expenseService, WalletRepository walletRepository, ExpenseRepository expenseRepository) {
         this.expenseService = expenseService;
+        this.walletRepository = walletRepository;
+        this.expenseRepository = expenseRepository;
     }
 
     @ModelAttribute("expenseTypes")
@@ -40,10 +46,10 @@ public class ExpenseController {
 
     @ModelAttribute("wallet")
     public Wallet setWallet() {
-        Wallet wallet = new Wallet();
-        wallet.setName("Gotovina");
-        wallet.setWalletType(WalletType.CASH);
-        log.info("Wallet created and loaded into session...");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Wallet wallet = walletRepository.findByUserId(authentication.getName());
+        wallet.setExpenses(expenseRepository.findAllByWalletId(wallet.getId()));
+        log.info("Wallet Loaded into session...");
         return wallet;
     }
 
@@ -82,7 +88,8 @@ public class ExpenseController {
             return mav;
         }
 
-        wallet.getExpenses().add(expense);
+        expense.setWalletId(wallet.getId());
+        wallet.getExpenses().add(expenseRepository.save(expense));
         ModelAndView mav = new ModelAndView("expense/details");
         mav.addObject(expense);
         return mav;

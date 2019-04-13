@@ -28,4 +28,6 @@ public class Expense extends BaseEntity {
     private ExpenseType expenseType;
 
     private LocalDateTime created;
+
+    private Long walletId;
 }

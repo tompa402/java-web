@@ -3,23 +3,24 @@ package hr.java.web.novak.moneyapp.repository.jdbc;
 import hr.java.web.novak.moneyapp.model.Wallet;
 import hr.java.web.novak.moneyapp.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class JdbcWalletRepository implements WalletRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbc;
     private final SimpleJdbcInsert walletInserter;
 
     @Autowired
-    public JdbcWalletRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.walletInserter = new SimpleJdbcInsert(jdbcTemplate)
+    public JdbcWalletRepository(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+        this.walletInserter = new SimpleJdbcInsert(jdbc)
                 .withTableName("wallet")
                 .usingGeneratedKeyColumns("id");
     }
@@ -47,5 +48,11 @@ public class JdbcWalletRepository implements WalletRepository {
     @Override
     public void deleteById(Long aLong) {
 
+    }
+
+    @Override
+    public Wallet findByUserId(String userName) {
+        Long userId = jdbc.queryForObject("SELECT id FROM users WHERE username = ?", Long.class, userName);
+        return jdbc.queryForObject("SELECT * FROM wallet WHERE user_id = ?", new BeanPropertyRowMapper<>(Wallet.class), userId);
     }
 }

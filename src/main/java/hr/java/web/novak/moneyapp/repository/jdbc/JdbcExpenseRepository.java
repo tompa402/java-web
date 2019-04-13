@@ -2,21 +2,17 @@ package hr.java.web.novak.moneyapp.repository.jdbc;
 
 import hr.java.web.novak.moneyapp.model.Expense;
 import hr.java.web.novak.moneyapp.repository.ExpenseRepository;
-import hr.java.web.novak.moneyapp.repository.mapper.ExpenseRowMapper;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 @Repository
 public class JdbcExpenseRepository implements ExpenseRepository {
-
-    private static final String TABLE = "EXPENSE";
-    private static final String COLUMNS = "NAME, AMOUNT, DESCRIPTION";
-    private static final String RETURN_COLUMNS = "ID, NAME, AMOUNT, DESCRIPTION, CREATED";
 
     private final JdbcTemplate jdbc;
     private final SimpleJdbcInsert expenseInserter;
@@ -31,17 +27,24 @@ public class JdbcExpenseRepository implements ExpenseRepository {
 
     @Override
     public List<Expense> findAll() {
-        return jdbc.query("SELECT ID, NAME, DESCRIPTION, CREATED FROM expense", new ExpenseRowMapper());
+        return null;
     }
 
     @Override
     public Expense findById(Long id) {
-        return (Expense)jdbc.queryForObject("SELECT ID, NAME, DESCRIPTION, CREATED FROM expense WHERE id = ?", new ExpenseRowMapper(), id);
+        return null;
     }
 
     @Override
     public Expense save(Expense object) {
-        return null;
+        Map<String, Object> values = new HashMap<>();
+        values.put("name", object.getName());
+        values.put("description", object.getDescription());
+        values.put("amount", object.getAmount());
+        values.put("expense_type", object.getExpenseType().toString());
+        values.put("wallet_id", object.getWalletId());
+        object.setId(expenseInserter.executeAndReturnKey(values).longValue());
+        return object;
     }
 
     @Override
@@ -52,5 +55,10 @@ public class JdbcExpenseRepository implements ExpenseRepository {
     @Override
     public void deleteById(Long aLong) {
 
+    }
+
+    @Override
+    public List<Expense> findAllByWalletId(Long walletId) {
+        return jdbc.query("SELECT * FROM expense WHERE wallet_id = ?", new BeanPropertyRowMapper<>(Expense.class), walletId);
     }
 }
