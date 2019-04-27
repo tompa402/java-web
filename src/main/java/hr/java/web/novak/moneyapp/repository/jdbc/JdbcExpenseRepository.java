@@ -41,7 +41,7 @@ public class JdbcExpenseRepository implements ExpenseRepository {
         values.put("name", object.getName());
         values.put("description", object.getDescription());
         values.put("amount", object.getAmount());
-        values.put("expense_type", object.getExpenseType().toString());
+//        values.put("expense_type", object.getExpenseType().toString());
 //        values.put("wallet_id", object.getWalletId());
         object.setId(expenseInserter.executeAndReturnKey(values).longValue());
         return object;

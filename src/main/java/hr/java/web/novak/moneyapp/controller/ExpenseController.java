@@ -2,6 +2,7 @@ package hr.java.web.novak.moneyapp.controller;
 
 import hr.java.web.novak.moneyapp.model.Expense;
 import hr.java.web.novak.moneyapp.model.ExpenseType;
+import hr.java.web.novak.moneyapp.model.User;
 import hr.java.web.novak.moneyapp.model.Wallet;
 import hr.java.web.novak.moneyapp.repository.ExpenseRepository;
 import hr.java.web.novak.moneyapp.repository.ExpenseTypeRepository;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -45,10 +47,10 @@ public class ExpenseController {
     }
 
     @ModelAttribute("expenseTypes")
-    public List<ExpenseType> setExpenseType() {
+    public ExpenseType[] setExpenseType() {
         log.info("Expense types loaded into session...");
-//        return ExpenseType.values();
-        return expenseTypeRepository.findAll();
+        return ExpenseType.values();
+//        return expenseTypeRepository.findAll();
     }
 
     @ModelAttribute("wallet")
@@ -62,12 +64,14 @@ public class ExpenseController {
 
     @GetMapping
     public String expensesList(Model model, @ModelAttribute("wallet") Wallet wallet) {
-//        model.addAttribute("expenses", wallet.getExpenses());
-//        BigDecimal total = wallet.getExpenses()
-//                .stream()
-//                .map(Expense::getAmount)
-//                .reduce(BigDecimal.ZERO, BigDecimal::add);
-//        model.addAttribute("total", total);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("expenses", user.getWallet().iterator().next().getExpenses());
+        BigDecimal total = user.getWallet().iterator().next().getExpenses()
+                .stream()
+                .map(Expense::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        model.addAttribute("total", total);
+
         return "expense/index";
     }
 
@@ -75,7 +79,7 @@ public class ExpenseController {
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public String newExpense(Model model) {
         model.addAttribute("expense", new Expense());
-//        model.addAttribute("expenseTypes", ExpenseType.values());
+        model.addAttribute("expenseTypes", ExpenseType.values());
         return "expense/newExpense";
     }
 
@@ -96,7 +100,9 @@ public class ExpenseController {
         }
 
 //        expense.setWalletId(wallet.getId());
-        wallet.getExpenses().add(expenseRepository.save(expense));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.getWallet().iterator().next().getExpenses().add(expenseRepository.save(expense));
+//        wallet.getExpenses().add(expenseRepository.save(expense));
         ModelAndView mav = new ModelAndView("expense/details");
         mav.addObject(expense);
         return mav;

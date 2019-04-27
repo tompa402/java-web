@@ -36,6 +36,9 @@ public class User extends BaseEntity implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="user")
+    private Set<Wallet> wallet;
+
     public void addRole(Role role){
         this.roles.add(role);
         //role.getUsers().add(this);

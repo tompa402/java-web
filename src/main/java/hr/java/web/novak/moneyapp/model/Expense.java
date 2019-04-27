@@ -3,9 +3,7 @@ package hr.java.web.novak.moneyapp.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -29,6 +27,8 @@ public class Expense extends BaseEntity {
     private String description;
 
     @NotNull(message = "Niste odabrali vrstu toška")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "expense_type")
     private ExpenseType expenseType;
 
     @ManyToOne

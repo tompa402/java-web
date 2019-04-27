@@ -4,8 +4,6 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 
-@Data
-@Entity
-public class WalletType extends BaseEntity {
-    private String name;
+public enum WalletType {
+    CASH, CREDIT_CARD, DEBIT_CARD
 }
