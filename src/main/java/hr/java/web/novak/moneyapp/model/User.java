@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@ToString(exclude = "roles")
+@ToString(exclude = {"roles", "wallets"})
 public class User extends BaseEntity implements UserDetails {
 
     private String firstName;
