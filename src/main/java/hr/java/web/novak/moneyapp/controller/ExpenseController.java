@@ -4,6 +4,7 @@ import hr.java.web.novak.moneyapp.model.Expense;
 import hr.java.web.novak.moneyapp.model.ExpenseType;
 import hr.java.web.novak.moneyapp.model.Wallet;
 import hr.java.web.novak.moneyapp.repository.ExpenseRepository;
+import hr.java.web.novak.moneyapp.repository.ExpenseTypeRepository;
 import hr.java.web.novak.moneyapp.repository.WalletRepository;
 import hr.java.web.novak.moneyapp.service.ExpenseService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Slf4j
 @RequestMapping("/expense")
@@ -31,17 +33,22 @@ public class ExpenseController {
     private final WalletRepository walletRepository;
     private final ExpenseRepository expenseRepository;
 
+    private final ExpenseTypeRepository expenseTypeRepository;
+
     @Autowired
-    public ExpenseController(ExpenseService expenseService, WalletRepository walletRepository, ExpenseRepository expenseRepository) {
+    public ExpenseController(ExpenseService expenseService, WalletRepository walletRepository, ExpenseRepository expenseRepository,
+                              ExpenseTypeRepository expenseTypeRepository) {
         this.expenseService = expenseService;
         this.walletRepository = walletRepository;
         this.expenseRepository = expenseRepository;
+        this.expenseTypeRepository = expenseTypeRepository;
     }
 
     @ModelAttribute("expenseTypes")
-    public ExpenseType[] setExpenseType() {
+    public List<ExpenseType> setExpenseType() {
         log.info("Expense types loaded into session...");
-        return ExpenseType.values();
+//        return ExpenseType.values();
+        return expenseTypeRepository.findAll();
     }
 
     @ModelAttribute("wallet")
@@ -68,7 +75,7 @@ public class ExpenseController {
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public String newExpense(Model model) {
         model.addAttribute("expense", new Expense());
-        model.addAttribute("expenseTypes", ExpenseType.values());
+//        model.addAttribute("expenseTypes", ExpenseType.values());
         return "expense/newExpense";
     }
 
@@ -88,7 +95,7 @@ public class ExpenseController {
             return mav;
         }
 
-        expense.setWalletId(wallet.getId());
+//        expense.setWalletId(wallet.getId());
         wallet.getExpenses().add(expenseRepository.save(expense));
         ModelAndView mav = new ModelAndView("expense/details");
         mav.addObject(expense);

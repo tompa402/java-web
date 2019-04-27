@@ -1,5 +1,11 @@
 package hr.java.web.novak.moneyapp.model;
 
-public enum ExpenseType {
-    FOOD, DRINK, BILL, OTHER
+import lombok.Data;
+
+import javax.persistence.Entity;
+
+@Data
+@Entity
+public class ExpenseType extends BaseEntity{
+    private String name;
 }

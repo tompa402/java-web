@@ -7,7 +7,6 @@ create table if not exists user (
  enabled bit not null,
  created timestamp,
  modified timestamp,
-
 );
 create table if not exists role (
  id identity,
@@ -27,30 +26,38 @@ create table if not exists user_role (
 
 create table if not exists wallet_type(
   id identity,
-  name varchar(16) not null
+  name varchar(16) not null,
+  created timestamp,
+  modified timestamp,
 );
 
 create table if not exists expense_type(
   id identity,
-  name varchar(16) not null
+  name varchar(16) not null,
+  created timestamp,
+  modified timestamp,
 );
 
 create table if not exists wallet(
   id identity,
   user_id int,
-  wallet_type varchar(16),
+  wallet_type_id integer not null,
   name varchar(32) not null,
-  created timestamp as CURRENT_TIMESTAMP,
-  foreign key (user_id) references user(id)
+  created timestamp,
+  modified timestamp,
+  foreign key (user_id) references user(id),
+  foreign key (wallet_type_id) references wallet_type(id),
 );
 
 create table if not exists expense(
   id identity,
   wallet_id int,
-  expense_type varchar (16),
+  expense_type_id integer not null,
   name varchar(32) not null,
   amount NUMERIC(8,2) not null,
   description varchar (128),
-  created timestamp as CURRENT_TIMESTAMP,
+  created timestamp,
+  modified timestamp,
   foreign key (wallet_id) references wallet(id),
+  foreign key (expense_type_id) references expense_type(id),
 );

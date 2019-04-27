@@ -38,24 +38,24 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void loadData() {
-        log.info("Loading data...");
-
-        Expense expenseOne = new Expense();
-        expenseOne.setName("Burek");
-        expenseOne.setAmount(new BigDecimal(BigInteger.TEN));
-        expenseOne.setDescription("I'm hungry.");
-        expenseOne.setExpenseType(ExpenseType.FOOD);
-
-        expenseService.save(expenseOne);
-
-        Expense expenseTwo = new Expense();
-        expenseTwo.setName("Coke");
-        expenseTwo.setAmount(new BigDecimal(BigInteger.TWO));
-        expenseTwo.setDescription("I'm thirsty.");
-        expenseTwo.setExpenseType(ExpenseType.DRINK);
-
-        expenseService.save(expenseTwo);
-
-        log.info("Expenses loaded...");
+//        log.info("Loading data...");
+//
+//        Expense expenseOne = new Expense();
+//        expenseOne.setName("Burek");
+//        expenseOne.setAmount(new BigDecimal(BigInteger.TEN));
+//        expenseOne.setDescription("I'm hungry.");
+//        expenseOne.setExpenseType(ExpenseType.FOOD);
+//
+//        expenseService.save(expenseOne);
+//
+//        Expense expenseTwo = new Expense();
+//        expenseTwo.setName("Coke");
+//        expenseTwo.setAmount(new BigDecimal(BigInteger.TWO));
+//        expenseTwo.setDescription("I'm thirsty.");
+//        expenseTwo.setExpenseType(ExpenseType.DRINK);
+//
+//        expenseService.save(expenseTwo);
+//
+//        log.info("Expenses loaded...");
     }
 }
