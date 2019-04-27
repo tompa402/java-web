@@ -1,8 +1,6 @@
 package hr.java.web.novak.moneyapp.service.security;
 
-import hr.java.web.novak.moneyapp.model.User;
 import hr.java.web.novak.moneyapp.service.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +21,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findByUsername(username);
-        return user;
+        return userService.findByUsername(username);
     }
 }
