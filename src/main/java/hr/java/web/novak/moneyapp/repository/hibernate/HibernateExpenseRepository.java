@@ -2,6 +2,7 @@ package hr.java.web.novak.moneyapp.repository.hibernate;
 
 import hr.java.web.novak.moneyapp.model.Expense;
 import hr.java.web.novak.moneyapp.repository.ExpenseRepository;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -39,7 +40,7 @@ public class HibernateExpenseRepository implements ExpenseRepository {
 
     @Override
     public Expense save(Expense object) {
-        em.persist(object);
+        ((Session) em.getDelegate()).save(object);
         return object;
     }
 

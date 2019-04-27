@@ -5,10 +5,10 @@ import hr.java.web.novak.moneyapp.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -51,8 +51,9 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public Wallet findByUserId(String userName) {
+    public Collection<Wallet> findAllByUserId(Long userName) {
         Long userId = jdbc.queryForObject("SELECT id FROM users WHERE username = ?", Long.class, userName);
-        return jdbc.queryForObject("SELECT * FROM wallet WHERE user_id = ?", new BeanPropertyRowMapper<>(Wallet.class), userId);
+        //return jdbc.queryForObject("SELECT * FROM wallet WHERE user_id = ?", new BeanPropertyRowMapper<>(Wallet.class), userId);
+        return null;
     }
 }

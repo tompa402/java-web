@@ -1,9 +1,6 @@
 package hr.java.web.novak.moneyapp.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -14,6 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString(exclude = "expenses")
 @Entity
 public class Wallet extends BaseEntity {
@@ -28,4 +26,8 @@ public class Wallet extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wallet")
     private Set<Expense> expenses = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

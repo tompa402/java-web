@@ -1,9 +1,6 @@
 package hr.java.web.novak.moneyapp.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotEmpty;
@@ -11,9 +8,9 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@AllArgsConstructor
 @Entity
-public class ExpenseType {
+public class ExpenseType extends BaseEntity {
 
     @NotEmpty
     private String name;

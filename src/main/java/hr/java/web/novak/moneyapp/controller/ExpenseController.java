@@ -4,26 +4,21 @@ import hr.java.web.novak.moneyapp.model.Expense;
 import hr.java.web.novak.moneyapp.model.ExpenseType;
 import hr.java.web.novak.moneyapp.model.User;
 import hr.java.web.novak.moneyapp.model.Wallet;
-import hr.java.web.novak.moneyapp.repository.ExpenseRepository;
-import hr.java.web.novak.moneyapp.repository.ExpenseTypeRepository;
-import hr.java.web.novak.moneyapp.repository.WalletRepository;
 import hr.java.web.novak.moneyapp.service.ExpenseService;
+import hr.java.web.novak.moneyapp.service.ExpenseTypeService;
+import hr.java.web.novak.moneyapp.service.WalletService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.math.BigDecimal;
-import java.util.List;
+import java.util.Collection;
 
 @Slf4j
 @RequestMapping("/expense")
@@ -31,32 +26,27 @@ import java.util.List;
 @Controller
 public class ExpenseController {
 
+    private final ExpenseTypeService expenseTypeService;
     private final ExpenseService expenseService;
-    private final WalletRepository walletRepository;
-    private final ExpenseRepository expenseRepository;
-
-    private final ExpenseTypeRepository expenseTypeRepository;
+    private final WalletService walletService;
 
     @Autowired
-    public ExpenseController(ExpenseService expenseService, WalletRepository walletRepository, ExpenseRepository expenseRepository,
-                              ExpenseTypeRepository expenseTypeRepository) {
+    public ExpenseController(ExpenseTypeService expenseTypeService, ExpenseService expenseService, WalletService walletService) {
+        this.expenseTypeService = expenseTypeService;
         this.expenseService = expenseService;
-        this.walletRepository = walletRepository;
-        this.expenseRepository = expenseRepository;
-        this.expenseTypeRepository = expenseTypeRepository;
+        this.walletService = walletService;
     }
 
     @ModelAttribute("expenseTypes")
-    public ExpenseType[] setExpenseType() {
+    public Collection<ExpenseType> setExpenseType() {
         log.info("Expense types loaded into session...");
-        return ExpenseType.values();
-//        return expenseTypeRepository.findAll();
+        return expenseTypeService.findAll();
     }
 
     @ModelAttribute("wallet")
     public Wallet setWallet() {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        Wallet wallet = walletRepository.findByUserId(authentication.getName());
+//        Wallet wallet = walletRepository.findAllByUserId(authentication.getName());
 //        wallet.setExpenses(expenseRepository.findAllByWalletId(wallet.getId()));
 //        log.info("Wallet Loaded into session...");
         return null;
@@ -77,35 +67,34 @@ public class ExpenseController {
 
     @GetMapping("/new")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public String newExpense(Model model) {
+    public String expenseForm(Model model,
+                              @ModelAttribute("expenseTypes") Collection<ExpenseType> expenseTypes) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("expense", new Expense());
-        model.addAttribute("expenseTypes", ExpenseType.values());
-        return "expense/newExpense";
+        model.addAttribute("expenseTypes", expenseTypes);
+        model.addAttribute("wallets", walletService.findAllByUserId(user.getId()));
+        return "expense/expenseForm";
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/new")
-    public ModelAndView processExpense(@Validated Expense expense,
-                                       Errors errors,
-                                       @ModelAttribute("expenseTypes") ExpenseType expenseType,
-                                       @ModelAttribute("wallet") Wallet wallet) {
-//        expenseService.save(expense);
+    public String processExpense(Model model,
+                                 @Validated Expense expense,
+                                 Errors errors,
+                                 @ModelAttribute("expenseTypes") Collection<ExpenseType> expenseTypes) {
         log.info("Procesuiram trošak: " + expense);
         if (errors.hasErrors()) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             log.info("Trošak ima grešaka. Prekida se slanje");
-            ModelAndView mav = new ModelAndView("expense/newExpense");
-            mav.addObject(expense);
-            mav.addObject(expenseType);
-            return mav;
+            model.addAttribute("expense", expense);
+            model.addAttribute("expenseTypes", expenseTypes);
+            model.addAttribute("wallets", walletService.findAllByUserId(user.getId()));
+            return "/expense/expenseForm";
         }
 
-//        expense.setWalletId(wallet.getId());
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        user.getWallet().iterator().next().getExpenses().add(expenseRepository.save(expense));
-////        wallet.getExpenses().add(expenseRepository.save(expense));
-        ModelAndView mav = new ModelAndView("expense/details");
-//        mav.addObject(expense);
-        return mav;
+        expenseService.save(expense);
+        model.addAttribute("expense", expense);
+        return "expense/details";
     }
 
     @GetMapping("/view")
