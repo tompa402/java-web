@@ -5,3 +5,31 @@
 .form-field-error {
     border: 1px solid red;
 }
+
+html,
+body,
+header,
+#intro {
+    height: 100%;
+}
+
+#intro {
+    background: url("../../images/bg-masthead.jpg")no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.custom-background {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.hr-white {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid white;
+    margin: 1em 0;
+    padding: 0;
+}

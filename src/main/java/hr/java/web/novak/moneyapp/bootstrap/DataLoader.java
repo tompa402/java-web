@@ -2,6 +2,7 @@ package hr.java.web.novak.moneyapp.bootstrap;
 
 import hr.java.web.novak.moneyapp.model.Expense;
 import hr.java.web.novak.moneyapp.model.ExpenseType;
+import hr.java.web.novak.moneyapp.repository.UserRepository;
 import hr.java.web.novak.moneyapp.service.ExpenseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +16,25 @@ import java.math.BigInteger;
 @Component
 public class DataLoader implements CommandLineRunner {
 
+    private final UserRepository userRepository;
+
     private final ExpenseService expenseService;
 
     @Autowired
-    public DataLoader(ExpenseService expenseService) {
+    public DataLoader(ExpenseService expenseService, UserRepository userRepository) {
         this.expenseService = expenseService;
+        this.userRepository = userRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        int count = expenseService.findAll().size();
-
-        if (count == 0) {
-            loadData();
-        }
+//        User user = userRepository.findByUsername("admin");
+//        System.out.println("test");
+//        int count = expenseService.findAll().size();
+//
+//        if (count == 0) {
+//            loadData();
+//        }
     }
 
     private void loadData() {

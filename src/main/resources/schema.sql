@@ -1,14 +1,28 @@
-create table if not exists users (
+create table if not exists user (
  id identity,
  username varchar(20) not null,
  password varchar(100) not null,
+ first_name varchar(100),
+ last_name varchar(100),
  enabled bit not null,
+ created timestamp,
+ modified timestamp,
 
 );
-create table if not exists authorities (
+create table if not exists role (
  id identity,
- username varchar(20) not null,
- authority varchar(20) not null
+ name varchar(20) not null,
+ created timestamp,
+ modified timestamp
+);
+
+create table if not exists user_role (
+ user_id integer not null,
+ role_id integer not null,
+ PRIMARY KEY (user_id, role_id),
+ foreign key (user_id) references user(id),
+ foreign key (role_id) references role(id),
+
 );
 
 create table if not exists wallet_type(
@@ -27,7 +41,7 @@ create table if not exists wallet(
   wallet_type varchar(16),
   name varchar(32) not null,
   created timestamp as CURRENT_TIMESTAMP,
-  foreign key (user_id) references users(id)
+  foreign key (user_id) references user(id)
 );
 
 create table if not exists expense(

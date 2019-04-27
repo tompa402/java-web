@@ -46,21 +46,21 @@ public class ExpenseController {
 
     @ModelAttribute("wallet")
     public Wallet setWallet() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Wallet wallet = walletRepository.findByUserId(authentication.getName());
-        wallet.setExpenses(expenseRepository.findAllByWalletId(wallet.getId()));
-        log.info("Wallet Loaded into session...");
-        return wallet;
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Wallet wallet = walletRepository.findByUserId(authentication.getName());
+//        wallet.setExpenses(expenseRepository.findAllByWalletId(wallet.getId()));
+//        log.info("Wallet Loaded into session...");
+        return null;
     }
 
     @GetMapping
     public String expensesList(Model model, @ModelAttribute("wallet") Wallet wallet) {
-        model.addAttribute("expenses", wallet.getExpenses());
-        BigDecimal total = wallet.getExpenses()
-                .stream()
-                .map(Expense::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        model.addAttribute("total", total);
+//        model.addAttribute("expenses", wallet.getExpenses());
+//        BigDecimal total = wallet.getExpenses()
+//                .stream()
+//                .map(Expense::getAmount)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//        model.addAttribute("total", total);
         return "expense/index";
     }
 

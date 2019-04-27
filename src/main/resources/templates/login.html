@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header(~{::title},~{}, ~{})">
     <title>MA - Login</title>
-
 </head>
 <body class="bg-gradient-primary">
 
@@ -22,6 +21,13 @@
                             <div class="p-5">
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    <h1 th:if="${param.error}" class="h5 text-danger">
+                                        Invalid username and/or password.
+                                    </h1>
+                                    <h1 th:if="${param.logout}" class="h5 text-danger">
+                                        You have been logged out.
+                                    </h1>
+                                    <br>
                                 </div>
                                 <form class="user" method="post" name="f" th:action="@{/login}">
                                     <div class="form-group">

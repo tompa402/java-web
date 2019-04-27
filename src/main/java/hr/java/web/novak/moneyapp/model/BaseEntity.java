@@ -1,21 +1,33 @@
 package hr.java.web.novak.moneyapp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
+@MappedSuperclass
 public class BaseEntity implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private LocalDateTime created;
+    private LocalDateTime modified;
 
-    public boolean isNew(){
+    public boolean isNew() {
         return this.id == null;
+    }
+
+    public void updateTimeStamps() {
+        modified = LocalDateTime.now();
+        if (created == null) {
+            created = LocalDateTime.now();
+        }
     }
 }
