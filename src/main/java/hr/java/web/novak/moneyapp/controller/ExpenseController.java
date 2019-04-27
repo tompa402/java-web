@@ -64,13 +64,13 @@ public class ExpenseController {
 
     @GetMapping
     public String expensesList(Model model, @ModelAttribute("wallet") Wallet wallet) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("expenses", user.getWallet().iterator().next().getExpenses());
-        BigDecimal total = user.getWallet().iterator().next().getExpenses()
-                .stream()
-                .map(Expense::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        model.addAttribute("total", total);
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        model.addAttribute("expenses", user.getWallet().iterator().next().getExpenses());
+//        BigDecimal total = user.getWallet().iterator().next().getExpenses()
+//                .stream()
+//                .map(Expense::getAmount)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//        model.addAttribute("total", total);
 
         return "expense/index";
     }
@@ -100,11 +100,11 @@ public class ExpenseController {
         }
 
 //        expense.setWalletId(wallet.getId());
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        user.getWallet().iterator().next().getExpenses().add(expenseRepository.save(expense));
-//        wallet.getExpenses().add(expenseRepository.save(expense));
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        user.getWallet().iterator().next().getExpenses().add(expenseRepository.save(expense));
+////        wallet.getExpenses().add(expenseRepository.save(expense));
         ModelAndView mav = new ModelAndView("expense/details");
-        mav.addObject(expense);
+//        mav.addObject(expense);
         return mav;
     }
 

@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @MappedSuperclass
 public class BaseEntity implements Serializable {
@@ -29,5 +31,18 @@ public class BaseEntity implements Serializable {
         if (created == null) {
             created = LocalDateTime.now();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BaseEntity)) return false;
+        BaseEntity that = (BaseEntity) o;
+        return this.id != null && Objects.equals(this.id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
     }
 }
