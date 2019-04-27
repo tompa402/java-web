@@ -1,18 +1,21 @@
 package hr.java.web.novak.moneyapp.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
-@Data
-@EqualsAndHashCode(callSuper=true)
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Expense extends BaseEntity {
 
@@ -27,11 +30,11 @@ public class Expense extends BaseEntity {
     private String description;
 
     @NotNull(message = "Niste odabrali vrstu toška")
-    @Enumerated(EnumType.STRING)
-    @Column(name = "expense_type")
+    @ManyToOne
+    @JoinColumn(name = "expense_type_id")
     private ExpenseType expenseType;
 
     @ManyToOne
-    @JoinColumn(name="wallet_id")
+    @JoinColumn(name = "wallet_id")
     private Wallet wallet;
 }

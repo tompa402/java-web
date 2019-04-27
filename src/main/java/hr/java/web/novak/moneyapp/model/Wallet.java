@@ -5,28 +5,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString(exclude = "expenses")
 @Entity
-@ToString
 public class Wallet extends BaseEntity {
 
     @NotEmpty(message = "Niste unjeli naziv novčanika")
     private String name;
 
     @NotNull(message = "Niste odabrali vrstu novčanika")
-    @Enumerated(EnumType.STRING)
-    @Column(name = "wallet_type")
+    @ManyToOne
+    @JoinColumn(name = "wallet_type_id")
     private WalletType walletType;
 
-//    @OneToMany(mappedBy="wallet", fetch= FetchType.EAGER)
-//    private List<Expense> expenses = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wallet")
+    private Set<Expense> expenses = new HashSet<>();
 }

@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -28,6 +25,8 @@ public class BaseEntity implements Serializable {
         return this.id == null;
     }
 
+    @PrePersist
+    @PreUpdate
     public void updateTimeStamps() {
         modified = LocalDateTime.now();
         if (created == null) {

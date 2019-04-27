@@ -27,7 +27,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findByUsername(username);
         user.getRoles().size();
-        user.getWallets().size();
         return user;
     }
 }

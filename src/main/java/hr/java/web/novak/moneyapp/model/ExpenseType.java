@@ -1,13 +1,20 @@
 package hr.java.web.novak.moneyapp.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.NotEmpty;
 
-public enum ExpenseType {
-    FOOD, DRINK, BILL, OTHER
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
+@Entity
+public class ExpenseType {
+
+    @NotEmpty
+    private String name;
 }
