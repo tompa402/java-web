@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 @Slf4j
@@ -61,7 +62,33 @@ public class TransactionController {
                                      @Validated TransactionDto transactionDto,
                                      Errors errors) {
         log.info("Procesuiram transakciju: " + transactionDto);
+
+        //TODO: implement error handling
+        if (errors.hasErrors()) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            log.info("Trošak ima grešaka. Prekida se slanje");
+            model.addAttribute("transaction", transactionDto);
+            model.addAttribute("trxCategories", walletService.findAllByUserId(user.getId()));
+            model.addAttribute("wallets", walletService.findAllByUserId(user.getId()));
+            return "/transaction/transactionForm";
+        }
         Transaction trx = modelMapper.map(transactionDto, Transaction.class);
-        return "transaction/details";
+        trxService.save(trx);
+        //TODO: redirect to details form
+        //model.addAttribute("transaction", trx);
+        return "redirect:/transaction/transactionForm";
+    }
+
+    @GetMapping
+    public String expensesList(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("expenses", user.getWallets().iterator().next().getExpenses());
+        BigDecimal total = user.getWallets().iterator().next().getExpenses()
+                .stream()
+                .map(Expense::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        model.addAttribute("total", total);
+
+        return "expense/index";
     }
 }
