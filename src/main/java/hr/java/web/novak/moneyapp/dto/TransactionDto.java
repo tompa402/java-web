@@ -14,8 +14,10 @@ import java.math.BigDecimal;
 public class TransactionDto {
 
     private Long id;
-    private Long trxCategoryId;
-    private Long trxTypeId;
+    private Long transactionCategoryId;
+    private String transactionCategoryName;
+    private Long transactionTypeId;
+    private String transactionTypeName;
     private Long walletId;
     private String name;
     private BigDecimal amount;

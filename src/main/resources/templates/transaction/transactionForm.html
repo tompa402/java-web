@@ -26,7 +26,7 @@
                             <div class="form-group row">
                                 <div class="btn-group btn-group-toggle d-flex w-100" data-toggle="buttons">
                                     <label class="btn btn-light active">
-                                        <input type="radio" th:field="*{trxTypeId}" th:value="1" th:text="'INCOME'"
+                                        <input type="radio" th:field="*{getTransactionTypeId}" th:value="1" th:text="'INCOME'"
                                                autocomplete="off">
                                     </label>
                                     <label class="btn btn-light disabled">
@@ -34,7 +34,7 @@
                                         TRANSACTION
                                     </label>
                                     <label class="btn btn-light">
-                                        <input type="radio" th:field="*{trxTypeId}" th:value="2" th:text="'EXPENSE'"
+                                        <input type="radio" th:field="*{getTransactionTypeId}" th:value="2" th:text="'EXPENSE'"
                                                autocomplete="off" checked>
                                     </label>
                                 </div>
@@ -83,7 +83,7 @@
                                 <label class="col-lg-3 col-form-label form-control-label" for="type">Type</label>
                                 <div class="col-lg-9">
                                     <select id="type" class="form-control" th:errorclass="form-field-error" size="0"
-                                            th:field="*{trxCategoryId}">
+                                            th:field="*{getTransactionCategoryId}">
                                         <option value="">---Odaberite vrijednost---</option>
                                         <option th:each="cat : ${trxCategories}"
                                                 th:value="${cat.id}"
@@ -91,7 +91,7 @@
                                         </option>
                                     </select>
                                     <span class="validation-error" th:if="${#fields.hasErrors('trxCategoryId')}"
-                                          th:errors="*{trxCategoryId}">Trošak vrsta error</span>
+                                          th:errors="*{getTransactionCategoryId}">Trošak vrsta error</span>
                                 </div>
                             </div>
                             <div class="form-group row">

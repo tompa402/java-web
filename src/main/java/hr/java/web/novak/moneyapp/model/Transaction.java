@@ -35,7 +35,7 @@ public class Transaction extends BaseEntity {
     @JoinColumn(name="trx_category_id")
     private TransactionCategory transactionCategory;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wallet_id")
     private Wallet wallet;
 }

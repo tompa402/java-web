@@ -24,8 +24,11 @@ public class Wallet extends BaseEntity {
     @JoinColumn(name = "wallet_type_id")
     private WalletType walletType;
 
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wallet")
+//    private Set<Expense> expenses = new HashSet<>();
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wallet")
-    private Set<Expense> expenses = new HashSet<>();
+    private Set<Transaction> transactions = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")

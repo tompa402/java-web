@@ -80,13 +80,14 @@ public class TransactionController {
     }
 
     @GetMapping
-    public String expensesList(Model model) {
+    public String transactionList(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("expenses", user.getWallets().iterator().next().getExpenses());
-        BigDecimal total = user.getWallets().iterator().next().getExpenses()
-                .stream()
-                .map(Expense::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        model.addAttribute("expenses", user.getWallets().iterator().next().getTransactions());
+//        BigDecimal total = user.getWallets().iterator().next().getTransactions()
+//                .stream()
+//                .map(Expense::getAmount)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal total = BigDecimal.ZERO;
         model.addAttribute("total", total);
 
         return "expense/index";
