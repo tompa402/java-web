@@ -30,3 +30,22 @@ insert into expense (wallet_id, expense_type_id, name, amount, description, crea
 values (2, 1, 'Burek', 12.00, 'Od mesa, zna se', NOW());
 insert into expense (wallet_id, expense_type_id, name, amount, description, created)
 values (2, 2, 'Pelin', 11.00, 'U malim bocicama se otrov drzi', NOW());
+
+
+insert into transaction_type (name, created) values ('INCOME', NOW());
+insert into transaction_type (name, created) values ('EXPENSE', NOW());
+
+insert into transaction_category (trx_type_id, name, created) values (2, 'FOOD', NOW());
+insert into transaction_category (trx_type_id, name, created) values (2, 'DRINK', NOW());
+insert into transaction_category (trx_type_id, name, created) values (2, 'BILL', NOW());
+insert into transaction_category (trx_type_id, name, created) values (2, 'OTHER', NOW());
+
+insert into transaction (wallet_id, trx_type_id, trx_category_id, name, amount, description, created)
+values (1, 2, 1, 'Pizza', 35.00, 'Bila je fina', NOW());
+insert into transaction (wallet_id, trx_category_id, trx_type_id, name, amount, description, created)
+values (1, 2, 2, 'Pivo', 20.00, 'Dobro al skupo', NOW());
+
+insert into transaction (wallet_id, trx_category_id, trx_type_id, name, amount, description, created)
+values (2, 2, 1, 'Burek', 12.00, 'Od mesa, zna se', NOW());
+insert into transaction (wallet_id, trx_category_id, trx_type_id, name, amount, description, created)
+values (2, 2, 2, 'Pelin', 11.00, 'U malim bocicama se otrov drzi', NOW());

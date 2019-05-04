@@ -3,7 +3,6 @@ package hr.java.web.novak.moneyapp.model;
 import lombok.*;
 
 import javax.persistence.Entity;
-import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
@@ -11,8 +10,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @ToString
 @Entity
-public class ExpenseType extends BaseEntity {
+public class TransactionCategory extends BaseEntity{
 
-    @NotEmpty
     private String name;
 }

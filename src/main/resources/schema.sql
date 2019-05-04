@@ -61,3 +61,34 @@ create table if not exists expense(
   foreign key (wallet_id) references wallet(id),
   foreign key (expense_type_id) references expense_type(id),
 );
+
+create table if not exists transaction_type(
+  id identity,
+  name varchar(16) not null,
+  created timestamp,
+  modified timestamp,
+);
+
+create table if not exists transaction_category(
+  id identity,
+  trx_type_id integer not null,
+  name varchar(16) not null,
+  created timestamp,
+  modified timestamp,
+  foreign key (trx_type_id) references transaction_type(id),
+);
+
+create table if not exists transaction(
+  id identity,
+  wallet_id integer not null,
+  trx_type_id integer not null,
+  trx_category_id integer not null,
+  name varchar(32) not null,
+  amount NUMERIC(8,2) not null,
+  description varchar (128),
+  created timestamp,
+  modified timestamp,
+  foreign key (wallet_id) references wallet(id),
+  foreign key (trx_type_id) references transaction_type(id),
+  foreign key (trx_category_id) references transaction_category(id),
+);

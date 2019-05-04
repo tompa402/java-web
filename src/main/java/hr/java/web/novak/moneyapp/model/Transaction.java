@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -20,24 +20,22 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Expense extends BaseEntity {
+public class Transaction extends BaseEntity {
 
-    @NotEmpty(message = "Niste unjeli naziv troška")
-    @Size(min = 4, max = 25, message = "Naziv troška treba imati između 4 i 25 znakova")
+
+    //TODO: add validation beans
     private String name;
 
-    @NotNull(message = "Niste unjeli naziv iznos")
-    @DecimalMin(value = "0.1")
     private BigDecimal amount;
 
     private String description;
 
-    @NotNull(message = "Niste odabrali vrstu toška")
     @ManyToOne
-    @JoinColumn(name = "expense_type_id")
-    private ExpenseType expenseType;
+    private TransactionType transactionType;
 
-    @NotNull(message = "Niste odabrali novčanik")
+    @ManyToOne
+    private TransactionCategory transactionCategory;
+
     @ManyToOne
     @JoinColumn(name = "wallet_id")
     private Wallet wallet;

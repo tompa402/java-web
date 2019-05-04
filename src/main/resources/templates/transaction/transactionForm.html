@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{fragments/layout}">
+
+<head th:replace="fragments/header :: header(~{::title},~{::link},~{})">
+    <title>MA - New Transaction</title>
+</head>
+
+<link href="../../static/css/style.css"
+      th:href="@{~/css/style.css}" rel="stylesheet">
+
+<body>
+<div layout:fragment="content">
+    <div class="container py-3">
+        <div class="row">
+            <div class="mx-auto col-sm-6">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">New Transaction</h6>
+                    </div>
+                    <div class="card-body">
+                        <form class="form" role="form" autocomplete="off" th:action="@{/transaction/new}" method="post"
+                              th:object="${transaction}">
+                            <div class="form-group row">
+                                <div class="btn-group btn-group-toggle d-flex w-100" data-toggle="buttons">
+                                    <label class="btn btn-light active">
+                                        <input type="radio" th:field="*{trxTypeId}" th:value="1" th:text="'INCOME'"
+                                               autocomplete="off">
+                                    </label>
+                                    <label class="btn btn-light disabled">
+                                        <input type="radio" name="options" id="option2" autocomplete="off" disabled>
+                                        TRANSACTION
+                                    </label>
+                                    <label class="btn btn-light">
+                                        <input type="radio" th:field="*{trxTypeId}" th:value="2" th:text="'EXPENSE'"
+                                               autocomplete="off" checked>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label" for="wallet">Wallet</label>
+                                <div class="col-lg-9">
+                                    <select id="wallet" class="form-control" th:errorclass="form-field-error" size="0"
+                                            th:field="*{walletId}">
+                                        <option value="">---Odaberite vrijednost---</option>
+                                        <option th:each="wallet : ${wallets}"
+                                                th:value="${wallet.id}"
+                                                th:text="${wallet.name}">Type
+                                        </option>
+                                    </select>
+                                    <span class="validation-error" th:if="${#fields.hasErrors('walletId')}"
+                                          th:errors="*{walletId}">Novčanik error</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label" for="name">Name</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" th:errorclass="form-field-error" type="text" id="name"
+                                           th:field="*{name}">
+                                    <span class="validation-error" th:if="${#fields.hasErrors('name')}"
+                                          th:errors="*{name}">Trošak ime error</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label" for="amount">Amount</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" th:errorclass="form-field-error" type="number"
+                                           step="0.01" min="0.01" id="amount" th:field="*{amount}">
+                                    <span class="validation-error" th:if="${#fields.hasErrors('amount')}"
+                                          th:errors="*{amount}">Trošak iznos error</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label" for="desc">Description</label>
+                                <div class="col-lg-9">
+                                    <textarea class="form-control" rows="3" id="desc"
+                                              th:field="*{description}"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label" for="type">Type</label>
+                                <div class="col-lg-9">
+                                    <select id="type" class="form-control" th:errorclass="form-field-error" size="0"
+                                            th:field="*{trxCategoryId}">
+                                        <option value="">---Odaberite vrijednost---</option>
+                                        <option th:each="cat : ${trxCategories}"
+                                                th:value="${cat.id}"
+                                                th:text="${cat.name}">Type
+                                        </option>
+                                    </select>
+                                    <span class="validation-error" th:if="${#fields.hasErrors('trxCategoryId')}"
+                                          th:errors="*{trxCategoryId}">Trošak vrsta error</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label"></label>
+                                <div class="col-lg-9">
+                                    <input type="reset" class="btn btn-secondary" value="Cancel">
+                                    <input type="hidden" name="expenseId" th:value="${transaction.id}"/>
+                                    <input type="submit" class="btn btn-primary" value="Save Changes">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -25,11 +25,11 @@
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label" for="wallet" >Wallet</label>
                                 <div class="col-lg-9">
-                                    <select id="wallet" class="form-control" th:errorclass="form-field-error" size="0" th:field="*{wallet}">
+                                    <select id="wallet" class="form-control" th:errorclass="form-field-error" size="0" th:field="*{wallet.id}">
                                         <option value="" >---Odaberite vrijednost---</option>
-                                        <option th:each="walletDd : ${wallets}"
-                                                th:value="${walletDd.id}"
-                                                th:text="${walletDd.name}">Type
+                                        <option th:each="wallet : ${wallets}"
+                                                th:value="${wallet.id}"
+                                                th:text="${wallet.name}">Type
                                         </option>
                                     </select>
                                     <span class="validation-error" th:if="${#fields.hasErrors('wallet')}"
