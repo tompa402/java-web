@@ -2,6 +2,7 @@ package hr.java.web.novak.moneyapp.controller;
 
 import hr.java.web.novak.moneyapp.model.User;
 import hr.java.web.novak.moneyapp.repository.UserRepository;
+import hr.java.web.novak.moneyapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,12 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class UserController {
 
-    //TODO: change with UserService
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/register")
@@ -33,9 +33,7 @@ public class UserController {
             model.addAttribute("user", new User());
             return "register";
         }
-        //TODO: implement pw hashing
-        user.setEnabled(true);
-        userRepository.save(user);
+        userService.save(user);
         return "redirect:/login/";
     }
 }

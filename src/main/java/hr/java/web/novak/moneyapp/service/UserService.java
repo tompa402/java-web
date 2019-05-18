@@ -24,4 +24,10 @@ public class UserService {
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    public void save(User user){
+        //TODO: implement pw hashing
+        user.setEnabled(true);
+        userRepository.save(user);
+    }
 }
