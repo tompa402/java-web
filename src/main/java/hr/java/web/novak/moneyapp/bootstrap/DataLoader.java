@@ -1,16 +1,10 @@
 package hr.java.web.novak.moneyapp.bootstrap;
 
-import hr.java.web.novak.moneyapp.model.Expense;
-import hr.java.web.novak.moneyapp.model.ExpenseType;
 import hr.java.web.novak.moneyapp.repository.UserRepository;
-import hr.java.web.novak.moneyapp.service.ExpenseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
 @Slf4j
 @Component
@@ -18,11 +12,9 @@ public class DataLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
 
-    private final ExpenseService expenseService;
 
     @Autowired
-    public DataLoader(ExpenseService expenseService, UserRepository userRepository) {
-        this.expenseService = expenseService;
+    public DataLoader(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

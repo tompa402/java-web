@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -38,7 +40,7 @@ public class RestTransactionController {
     public Set<TransactionDto> findAll() {
         transactionService.findAll();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Set<Wallet> wallets = walletService.findAllByUserId(user.getId());
+        List<Wallet> wallets = walletService.findAllByUserId(user.getId());
         Set<Transaction> transactions = wallets.iterator().next().getTransactions();
 
         java.lang.reflect.Type targetListType = new TypeToken<Set<TransactionDto>>() {}.getType();
@@ -47,13 +49,13 @@ public class RestTransactionController {
 }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransactionDto> findOne(@PathVariable Long id) {
-        Transaction transaction = transactionService.findById(id);
-        if(transaction != null) {
+    public ResponseEntity findOne(@PathVariable Long id) {
+        Optional<Transaction> transaction = transactionService.findById(id);
+        if(transaction.isPresent()) {
             TransactionDto trxDto = modelMapper.map(transaction, TransactionDto.class);
             return new ResponseEntity<>(trxDto, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -62,14 +64,16 @@ public class RestTransactionController {
     public TransactionDto save(@RequestBody TransactionDto trxDto) {
         // za implementirati
         Transaction trx = modelMapper.map(trxDto, Transaction.class);
-        return modelMapper.map(transactionService.save(trx), TransactionDto.class);
+        transactionService.save(trx);
+        return modelMapper.map(trx, TransactionDto.class);
     }
 
     @PutMapping
     public TransactionDto update(@RequestBody TransactionDto trxDto) {
         // za implementirati
         Transaction trx = modelMapper.map(trxDto, Transaction.class);
-        return modelMapper.map(transactionService.update(trx), TransactionDto.class);
+        transactionService.save(trx);
+        return modelMapper.map(trx, TransactionDto.class);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

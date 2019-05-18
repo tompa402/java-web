@@ -29,6 +29,9 @@
 
                             <dt class="col-sm-3">Category</dt>
                             <dd class="col-sm-9" th:text="${transaction.transactionCategory.name}">category</dd>
+
+                            <dt class="col-sm-3">Type</dt>
+                            <dd class="col-sm-9" th:text="${transaction.transactionType.name}">category</dd>
                         </dl>
                     </div>
 
@@ -37,7 +40,7 @@
                             <div class="col-sm-3"></div>
                             <div class="col-sm-9">
                                 <a th:href="@{/transaction/new}" class="btn btn-primary">New Transaction</a>
-                                <a th:href="@{/transaction}" class="btn btn-success disabled">Transaction list</a>
+                                <a th:href="@{/transaction}" class="btn btn-success">Transaction list</a>
                             </div>
                         </div>
 

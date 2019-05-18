@@ -1,10 +1,7 @@
 package hr.java.web.novak.moneyapp.repository;
 
 import hr.java.web.novak.moneyapp.model.Expense;
-import hr.java.web.novak.moneyapp.model.Wallet;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
-public interface ExpenseRepository extends CrudRepository<Expense, Long> {
-    List<Expense> findAllByWalletId(Long walletId);
+public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 }

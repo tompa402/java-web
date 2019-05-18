@@ -23,35 +23,52 @@
                     <div class="card-body">
                         <form class="form" role="form" autocomplete="off" th:action="@{/transaction/new}" method="post"
                               th:object="${transaction}">
+                            <!--TODO: enable commented area and disable dropdown for transactiontype-->
+                            <!--<div class="form-group row">-->
+                                <!--<div class="btn-group btn-group-toggle d-flex w-100" data-toggle="buttons">-->
+                                    <!--<label class="btn btn-light active">-->
+                                        <!--<input type="radio" th:field="*{transactionType.id}" th:value="1" th:text="'INCOME'"-->
+                                               <!--autocomplete="off">-->
+                                    <!--</label>-->
+                                    <!--<label class="btn btn-light disabled">-->
+                                        <!--<input type="radio" name="options" id="option2" autocomplete="off" disabled>-->
+                                        <!--TRANSACTION-->
+                                    <!--</label>-->
+                                    <!--<label class="btn btn-light">-->
+                                        <!--<input type="radio" th:field="*{transactionType.id}" th:value="2" th:text="'EXPENSE'"-->
+                                               <!--autocomplete="off" checked>-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="form-group row">
-                                <div class="btn-group btn-group-toggle d-flex w-100" data-toggle="buttons">
-                                    <label class="btn btn-light active">
-                                        <input type="radio" th:field="*{getTransactionTypeId}" th:value="1" th:text="'INCOME'"
-                                               autocomplete="off">
-                                    </label>
-                                    <label class="btn btn-light disabled">
-                                        <input type="radio" name="options" id="option2" autocomplete="off" disabled>
-                                        TRANSACTION
-                                    </label>
-                                    <label class="btn btn-light">
-                                        <input type="radio" th:field="*{getTransactionTypeId}" th:value="2" th:text="'EXPENSE'"
-                                               autocomplete="off" checked>
-                                    </label>
+                                <label class="col-lg-3 col-form-label form-control-label" for="trxTypes">Transaction type</label>
+                                <div class="col-lg-9">
+                                    <select id="trxTypes" class="form-control" th:errorclass="form-field-error" size="0"
+                                            th:field="*{transactionType.id}">
+                                        <option value="">---Odaberite vrijednost---</option>
+                                        <option th:each="type : ${trxTypes}"
+                                                th:value="${type.id}"
+                                                th:text="${type.name}">Type
+                                        </option>
+                                    </select>
+                                    <span class="validation-error" th:if="${#fields.hasErrors('wallet')}"
+                                          th:errors="*{wallet}">Novčanik error</span>
                                 </div>
                             </div>
+
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label" for="wallet">Wallet</label>
                                 <div class="col-lg-9">
                                     <select id="wallet" class="form-control" th:errorclass="form-field-error" size="0"
-                                            th:field="*{walletId}">
+                                            th:field="*{wallet.id}">
                                         <option value="">---Odaberite vrijednost---</option>
                                         <option th:each="wallet : ${wallets}"
                                                 th:value="${wallet.id}"
                                                 th:text="${wallet.name}">Type
                                         </option>
                                     </select>
-                                    <span class="validation-error" th:if="${#fields.hasErrors('walletId')}"
-                                          th:errors="*{walletId}">Novčanik error</span>
+                                    <span class="validation-error" th:if="${#fields.hasErrors('wallet')}"
+                                          th:errors="*{wallet}">Novčanik error</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -80,18 +97,18 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label" for="type">Type</label>
+                                <label class="col-lg-3 col-form-label form-control-label" for="type">Transaction category</label>
                                 <div class="col-lg-9">
                                     <select id="type" class="form-control" th:errorclass="form-field-error" size="0"
-                                            th:field="*{getTransactionCategoryId}">
+                                            th:field="*{transactionCategory.id}">
                                         <option value="">---Odaberite vrijednost---</option>
                                         <option th:each="cat : ${trxCategories}"
                                                 th:value="${cat.id}"
                                                 th:text="${cat.name}">Type
                                         </option>
                                     </select>
-                                    <span class="validation-error" th:if="${#fields.hasErrors('trxCategoryId')}"
-                                          th:errors="*{getTransactionCategoryId}">Trošak vrsta error</span>
+                                    <span class="validation-error" th:if="${#fields.hasErrors('transactionCategory')}"
+                                          th:errors="*{transactionCategory}">Trošak vrsta error</span>
                                 </div>
                             </div>
                             <div class="form-group row">

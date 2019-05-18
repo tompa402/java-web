@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Primary
 @Service
@@ -25,8 +26,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findByUsername(username);
-        user.getRoles().size();
-        return user;
+        Optional<User> user = userService.findByUsername(username);
+        if(user.isPresent()){
+            user.get().getRoles().size();
+            return user.get();
+        }
+        return null;
     }
 }

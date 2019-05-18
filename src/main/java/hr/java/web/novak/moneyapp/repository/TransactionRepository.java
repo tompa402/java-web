@@ -1,9 +1,12 @@
 package hr.java.web.novak.moneyapp.repository;
 
 import hr.java.web.novak.moneyapp.model.Transaction;
-import hr.java.web.novak.moneyapp.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TransactionRepository extends CrudRepository<Transaction, Long> {
+import java.util.List;
 
-    Transaction update(Transaction transaction);
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+
+    List<Transaction> findAllByWalletIdInAndNameLike(List<Long> wallets, String name);
+    List<Transaction> findAllByWalletIdIn(List<Long> wallets);
 }
