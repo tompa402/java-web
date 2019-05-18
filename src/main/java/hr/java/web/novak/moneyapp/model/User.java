@@ -25,6 +25,7 @@ public class User extends BaseEntity implements UserDetails {
     private String lastName;
     private String username;
     private String password;
+    private transient String repeatedPassword;
 
     @Transient
     private String passwordConfirm;
