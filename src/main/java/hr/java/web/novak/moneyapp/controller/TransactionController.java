@@ -71,9 +71,7 @@ public class TransactionController {
     @GetMapping("/{trxId}")
     public String transactionDetails(@PathVariable Long trxId, Model model) {
         Optional<Transaction> trx = trxService.findById(trxId);
-        if (trx.isPresent()) {
-            model.addAttribute("transaction", trx.get());
-        }
+        trx.ifPresent(transaction -> model.addAttribute("transaction", transaction));
         //TODO: handle if no item found
         return "transaction/transactionDetails";
     }
