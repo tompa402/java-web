@@ -54,6 +54,21 @@
             </div>
         </li>
 
+        <li class="nav-item dropdown no-arrow mx-1">
+            <select id="locales">
+                <option value="hr"
+                        th:selected="${#locale.language == 'hr'}"
+                        th:text="#{msg.lang.hr}"></option>
+                <option value="en"
+                        th:selected="${#locale.language == 'en'}"
+                        th:text="#{msg.lang.en}"></option>
+
+                <option value="es"
+                        th:selected="${#locale.language == 'es'}"
+                        th:text="#{msg.lang.es}"></option>
+            </select>
+        </li>
+
         <!-- Nav Item - Alerts -->
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"

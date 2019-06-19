@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header(~{::title},~{::link}, ~{})">
+<head th:replace="fragments/header :: header(~{::title},~{::link}, ~{::script})">
     <title>Home</title>
     <link href="../static/css/style.css"
           th:href="@{~/css/style.css}" rel="stylesheet">
+
+    <script src="../../static/js/custom.js"
+            th:src="@{~/js/custom.js}" defer></script>
+
 </head>
 <body>
 <header>

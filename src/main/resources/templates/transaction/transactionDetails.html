@@ -3,8 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
 
-<head th:replace="fragments/header :: header(~{::title},~{}, ~{})">
+<head th:replace="fragments/header :: header(~{::title},~{}, ~{::script})">
     <title>MA - Transaction details</title>
+
+    <script src="../../static/js/custom.js"
+            th:src="@{~/js/custom.js}" defer></script>
 
 </head>
 <body>
@@ -14,23 +17,23 @@
             <div class="mx-auto col-sm-6">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Transaction details</h6>
+                        <h6 class="m-0 font-weight-bold text-primary" th:text="#{msg.trx.cardDetailsHeader}">Transaction details</h6>
                     </div>
                     <div class="card-body">
                         <dl class="row" th:object="${transaction}">
-                            <dt class="col-sm-3">Name</dt>
+                            <dt class="col-sm-3" th:text="#{msg.trx.name}">Name</dt>
                             <dd class="col-sm-9" th:text="*{name}">name</dd>
 
-                            <dt class="col-sm-3">Amount</dt>
+                            <dt class="col-sm-3" th:text="#{msg.trx.amount}">Amount</dt>
                             <dd class="col-sm-9" th:text="*{amount} + ' HRK'">123 HRK</dd>
 
-                            <dt class="col-sm-3">Description</dt>
+                            <dt class="col-sm-3" th:text="#{msg.trx.description}">Description</dt>
                             <dd class="col-sm-9" th:text="*{description}">Longer description</dd>
 
-                            <dt class="col-sm-3">Category</dt>
+                            <dt class="col-sm-3" th:text="#{msg.trx.category}">Category</dt>
                             <dd class="col-sm-9" th:text="${transaction.transactionCategory.name}">category</dd>
 
-                            <dt class="col-sm-3">Type</dt>
+                            <dt class="col-sm-3" th:text="#{msg.trx.type}">Type</dt>
                             <dd class="col-sm-9" th:text="${transaction.transactionType.name}">category</dd>
                         </dl>
                     </div>
@@ -39,8 +42,8 @@
                         <div class="row">
                             <div class="col-sm-3"></div>
                             <div class="col-sm-9">
-                                <a th:href="@{/transaction/new}" class="btn btn-primary">New Transaction</a>
-                                <a th:href="@{/transaction}" class="btn btn-success">Transaction list</a>
+                                <a th:href="@{/transaction/new}" class="btn btn-primary" th:text="#{msg.btn.newTrx}">New Transaction</a>
+                                <a th:href="@{/transaction}" class="btn btn-success" th:text="#{msg.btn.listTrx}">Transaction list</a>
                             </div>
                         </div>
 
